@@ -35,12 +35,3 @@ listen replicas
     server patroni1 ${PATRONI1_IP}:5432 maxconn 100 check port 8008
     server patroni2 ${PATRONI2_IP}:5432 maxconn 100 check port 8008
     server patroni3 ${PATRONI3_IP}:5432 maxconn 100 check port 8008
-
-listen replicas_sync
-    bind *:5002
-    option httpchk GET /sync
-    http-check expect status 200
-    default-server inter 3s fall 3 rise 2
-    server patroni1 ${PATRONI1_IP}:5432 maxconn 100 check port 8008
-    server patroni2 ${PATRONI2_IP}:5432 maxconn 100 check port 8008
-    server patroni3 ${PATRONI3_IP}:5432 maxconn 100 check port 8008
