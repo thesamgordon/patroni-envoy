@@ -1,10 +1,9 @@
 FROM caddy:builder AS builder
-
 RUN xcaddy build \
     --with github.com/mholt/caddy-l4
-    
+
 FROM caddy:latest
-
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+COPY caddy.json /etc/caddy/caddy.json
 
-COPY Caddyfile /etc/caddy/Caddyfile
+CMD ["caddy", "run", "--config", "/etc/caddy/caddy.json"]
