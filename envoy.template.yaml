@@ -31,24 +31,12 @@ static_resources:
         endpoints:
           - lb_endpoints:
               - endpoint:
-                  health_check_config:
-                    port_value: 8008
-                    address:
-                      socket_address: { address: ${PATRONI1_IP}, port_value: 8008 }
                   address:
                     socket_address: { address: ${PATRONI1_IP}, port_value: 5432 }
               - endpoint:
-                  health_check_config:
-                    port_value: 8008
-                    address:
-                      socket_address: { address: ${PATRONI2_IP}, port_value: 8008 }
                   address:
                     socket_address: { address: ${PATRONI2_IP}, port_value: 5432 }
               - endpoint:
-                  health_check_config:
-                    port_value: 8008
-                    address:
-                      socket_address: { address: ${PATRONI3_IP}, port_value: 8008 }
                   address:
                     socket_address: { address: ${PATRONI3_IP}, port_value: 5432 }
       health_checks:
@@ -58,6 +46,8 @@ static_resources:
           healthy_threshold: 1
           http_health_check:
             path: "/primary"
+            port_specification:
+              value: 8008
     - name: replicas_cluster
       type: STRICT_DNS
       lb_policy: ROUND_ROBIN
@@ -68,24 +58,12 @@ static_resources:
         endpoints:
           - lb_endpoints:
               - endpoint:
-                  health_check_config:
-                    port_value: 8008
-                    address:
-                      socket_address: { address: ${PATRONI1_IP}, port_value: 8008 }
                   address:
                     socket_address: { address: ${PATRONI1_IP}, port_value: 5432 }
               - endpoint:
-                  health_check_config:
-                    port_value: 8008
-                    address:
-                      socket_address: { address: ${PATRONI2_IP}, port_value: 8008 }
                   address:
                     socket_address: { address: ${PATRONI2_IP}, port_value: 5432 }
               - endpoint:
-                  health_check_config:
-                    port_value: 8008
-                    address:
-                      socket_address: { address: ${PATRONI3_IP}, port_value: 8008 }
                   address:
                     socket_address: { address: ${PATRONI3_IP}, port_value: 5432 }
       health_checks:
@@ -95,6 +73,8 @@ static_resources:
           healthy_threshold: 1
           http_health_check:
             path: "/replica"
+            port_specification:
+              value: 8008
 admin:
   access_log_path: "/dev/null"
   address:
