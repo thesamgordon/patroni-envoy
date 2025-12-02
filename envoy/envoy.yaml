@@ -10,7 +10,6 @@ static_resources:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
                 stat_prefix: primary_tcp
                 cluster: primary_cluster
-
     - name: replicas_listener
       address:
         socket_address: { address: 0.0.0.0, port_value: 5001 }
@@ -21,7 +20,6 @@ static_resources:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
                 stat_prefix: replicas_tcp
                 cluster: replicas_cluster
-
   clusters:
     - name: primary_cluster
       connect_timeout: 4s
@@ -36,16 +34,22 @@ static_resources:
                     socket_address:
                       address: ${PATRONI1_IP}
                       port_value: 5432
+                  health_check_config:
+                    port_value: 8008
               - endpoint:
                   address:
                     socket_address:
                       address: ${PATRONI2_IP}
                       port_value: 5432
+                  health_check_config:
+                    port_value: 8008
               - endpoint:
                   address:
                     socket_address:
                       address: ${PATRONI3_IP}
                       port_value: 5432
+                  health_check_config:
+                    port_value: 8008
       health_checks:
         - timeout: 2s
           interval: 3s
@@ -53,15 +57,7 @@ static_resources:
           healthy_threshold: 2
           http_health_check:
             path: "/primary"
-            expected_statuses:
-              start: 200
-              end: 200
           no_traffic_interval: 5s
-          reuse_connection: true
-          health_check_port: 8008
-      transport_socket:
-        name: envoy.transport_sockets.raw_buffer
-
     - name: replicas_cluster
       connect_timeout: 4s
       type: STRICT_DNS
@@ -75,16 +71,22 @@ static_resources:
                     socket_address:
                       address: ${PATRONI1_IP}
                       port_value: 5432
+                  health_check_config:
+                    port_value: 8008
               - endpoint:
                   address:
                     socket_address:
                       address: ${PATRONI2_IP}
                       port_value: 5432
+                  health_check_config:
+                    port_value: 8008
               - endpoint:
                   address:
                     socket_address:
                       address: ${PATRONI3_IP}
                       port_value: 5432
+                  health_check_config:
+                    port_value: 8008
       health_checks:
         - timeout: 2s
           interval: 3s
@@ -92,15 +94,7 @@ static_resources:
           healthy_threshold: 2
           http_health_check:
             path: "/replica"
-            expected_statuses:
-              start: 200
-              end: 200
           no_traffic_interval: 5s
-          reuse_connection: true
-          health_check_port: 8008
-      transport_socket:
-        name: envoy.transport_sockets.raw_buffer
-
 admin:
   access_log_path: "/dev/null"
   address:
