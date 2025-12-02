@@ -49,6 +49,7 @@ static_resources:
           interval: 3s
           unhealthy_threshold: 1
           healthy_threshold: 1
+          always_log_health_check_failures: true
           http_health_check:
             path: "/primary"
     - name: replicas_cluster
@@ -79,6 +80,7 @@ static_resources:
           interval: 3s
           unhealthy_threshold: 1
           healthy_threshold: 1
+          always_log_health_check_failures: true
           http_health_check:
             path: "/replica"
 admin:
