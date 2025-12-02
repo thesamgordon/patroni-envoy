@@ -25,7 +25,6 @@ static_resources:
       type: STRICT_DNS
       lb_policy: ROUND_ROBIN
       connect_timeout: 4s
-      dns_lookup_family: V4_PREFERRED
       load_assignment:
         cluster_name: primary_cluster
         endpoints:
@@ -46,13 +45,25 @@ static_resources:
           healthy_threshold: 1
           http_health_check:
             path: "/primary"
-            port_specification:
-              value: 8008
+            host: ${PATRONI1_IP}:8008
+        - timeout: 2s
+          interval: 3s
+          unhealthy_threshold: 1
+          healthy_threshold: 1
+          http_health_check:
+            path: "/primary"
+            host: ${PATRONI2_IP}:8008
+        - timeout: 2s
+          interval: 3s
+          unhealthy_threshold: 1
+          healthy_threshold: 1
+          http_health_check:
+            path: "/primary"
+            host: ${PATRONI3_IP}:8008
     - name: replicas_cluster
       type: STRICT_DNS
       lb_policy: ROUND_ROBIN
       connect_timeout: 4s
-      dns_lookup_family: V4_PREFERRED
       load_assignment:
         cluster_name: replicas_cluster
         endpoints:
@@ -73,8 +84,21 @@ static_resources:
           healthy_threshold: 1
           http_health_check:
             path: "/replica"
-            port_specification:
-              value: 8008
+            host: ${PATRONI1_IP}:8008
+        - timeout: 2s
+          interval: 3s
+          unhealthy_threshold: 1
+          healthy_threshold: 1
+          http_health_check:
+            path: "/replica"
+            host: ${PATRONI2_IP}:8008
+        - timeout: 2s
+          interval: 3s
+          unhealthy_threshold: 1
+          healthy_threshold: 1
+          http_health_check:
+            path: "/replica"
+            host: ${PATRONI3_IP}:8008
 admin:
   access_log_path: "/dev/null"
   address:
