@@ -11,6 +11,6 @@ precedence ::ffff:0:0/96  10
 precedence ::/0           100
 EOF
 
-envsubst '${PATRONI1_IP} ${PATRONI2_IP} ${PATRONI3_IP}' < /usr/local/etc/haproxy/haproxy.cfg.template > /usr/local/etc/haproxy/haproxy.cfg
+envsubst '${PATRONI1_IP} ${PATRONI2_IP} ${PATRONI3_IP}' < /usr/local/etc/haproxy/haproxy.template.cfg > /usr/local/etc/haproxy/haproxy.cfg
 
 exec haproxy -f /usr/local/etc/haproxy/haproxy.cfg
