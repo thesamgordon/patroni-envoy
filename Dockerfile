@@ -1,4 +1,4 @@
-FROM haproxy:3.0-alpine
+FROM haproxy:3.3-alpine
 
 USER root
 RUN apk add --no-cache gettext
